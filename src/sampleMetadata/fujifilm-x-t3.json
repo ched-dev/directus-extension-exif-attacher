@@ -1,0 +1,93 @@
+{
+  "iptc": {
+    "ApplicationRecordVersion": "\u0000\u0004",
+    "DateCreated": "20200718",
+    "TimeCreated": "142730",
+    "DigitalCreationDate": "20200718",
+    "DigitalCreationTime": "142730"
+  },
+  "ifd0": {
+    "Make": "FUJIFILM",
+    "Model": "X-T3",
+    "XResolution": 240,
+    "YResolution": 240,
+    "ResolutionUnit": "inches",
+    "Software": "Adobe Lightroom 5.2 (Macintosh)",
+    "ModifyDate": "2022-02-26T19:38:00.000Z"
+  },
+  "ifd1": {
+    "Compression": 6,
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "ThumbnailOffset": 1214,
+    "ThumbnailLength": 10415
+  },
+  "exif": {
+    "ExposureTime": 0.0018181818181818182,
+    "FNumber": 4,
+    "ExposureProgram": "Aperture priority",
+    "ISO": 160,
+    "SensitivityType": 1,
+    "ExifVersion": "2.3.1",
+    "DateTimeOriginal": "2020-07-18T14:27:30.000Z",
+    "CreateDate": "2020-07-18T14:27:30.000Z",
+    "OffsetTime": "-07:00",
+    "ShutterSpeedValue": 9.103288,
+    "ApertureValue": 4,
+    "BrightnessValue": 7.55,
+    "ExposureCompensation": 0,
+    "MaxApertureValue": 3,
+    "MeteringMode": "Pattern",
+    "LightSource": "Unknown",
+    "Flash": "Flash did not fire",
+    "FocalLength": 140,
+    "ColorSpace": 1,
+    "FocalPlaneXResolution": 2655.3432006835938,
+    "FocalPlaneYResolution": 2655.3432006835938,
+    "FocalPlaneResolutionUnit": "Centimeter",
+    "SensingMethod": "One-chip color area sensor",
+    "FileSource": "Digital Camera",
+    "SceneType": "Directly photographed",
+    "CustomRendered": "Normal",
+    "ExposureMode": "Auto",
+    "WhiteBalance": "Auto",
+    "FocalLengthIn35mmFormat": 210,
+    "SceneCaptureType": "Standard",
+    "Sharpness": "Normal",
+    "SubjectDistanceRange": "Unknown",
+    "SerialNumber": "XXXXXX",
+    "LensInfo": [
+      50,
+      140,
+      2.8,
+      2.8
+    ],
+    "LensMake": "FUJIFILM",
+    "LensModel": "XF50-140mmF2.8 R LM OIS WR",
+    "LensSerialNumber": "XXXXXX"
+  },
+  "gps": {
+    "GPSVersionID": "2.2.0.0",
+    "GPSLatitudeRef": "N",
+    "GPSLatitude": [
+      39,
+      35.3196,
+      0
+    ],
+    "GPSLongitudeRef": "W",
+    "GPSLongitude": [
+      106,
+      2.68974,
+      0
+    ],
+    "GPSAltitude": 0,
+    "GPSTimeStamp": "20:19:18",
+    "GPSSpeedRef": "K",
+    "GPSSpeed": 0,
+    "GPSMapDatum": "WGS-84",
+    "GPSDateStamp": "2020:07:18",
+    "latitude": 39.58866,
+    "longitude": -106.044829
+  }
+}

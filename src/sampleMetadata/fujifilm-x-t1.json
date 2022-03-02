@@ -1,0 +1,68 @@
+{
+  "iptc": {
+    "ApplicationRecordVersion": "\u0000\u0004",
+    "DateCreated": "20150816",
+    "TimeCreated": "183102",
+    "DigitalCreationDate": "20150816",
+    "DigitalCreationTime": "183102"
+  },
+  "ifd0": {
+    "Make": "FUJIFILM",
+    "Model": "X-T1",
+    "XResolution": 240,
+    "YResolution": 240,
+    "ResolutionUnit": "inches",
+    "Software": "Adobe Photoshop Lightroom 5.7.1 (Macintosh)",
+    "ModifyDate": "2015-08-30T00:41:37.000Z"
+  },
+  "ifd1": {
+    "Compression": 6,
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "ThumbnailOffset": 916,
+    "ThumbnailLength": 12318
+  },
+  "exif": {
+    "ExposureTime": 0.0016666666666666668,
+    "FNumber": 5,
+    "ExposureProgram": "Aperture priority",
+    "ISO": 800,
+    "SensitivityType": 1,
+    "ExifVersion": "2.3",
+    "DateTimeOriginal": "2015-08-16T18:31:02.000Z",
+    "CreateDate": "2015-08-16T18:31:02.000Z",
+    "ShutterSpeedValue": 9.228819,
+    "ApertureValue": 4.643856,
+    "BrightnessValue": 7.03,
+    "ExposureCompensation": 0.33,
+    "MaxApertureValue": 4,
+    "MeteringMode": "Pattern",
+    "LightSource": "Unknown",
+    "Flash": "Flash did not fire, compulsory flash mode",
+    "FocalLength": 24,
+    "ColorSpace": 1,
+    "FocalPlaneXResolution": 2083.423126220703,
+    "FocalPlaneYResolution": 2083.423126220703,
+    "FocalPlaneResolutionUnit": "Centimeter",
+    "SensingMethod": "One-chip color area sensor",
+    "FileSource": "Digital Camera",
+    "SceneType": "Directly photographed",
+    "CustomRendered": "Normal",
+    "ExposureMode": "Auto",
+    "WhiteBalance": "Auto",
+    "FocalLengthIn35mmFormat": 36,
+    "SceneCaptureType": "Standard",
+    "Sharpness": "Normal",
+    "SubjectDistanceRange": "Unknown",
+    "LensInfo": [
+      10,
+      24,
+      4,
+      4
+    ],
+    "LensMake": "FUJIFILM",
+    "LensModel": "XF10-24mmF4 R OIS",
+    "LensSerialNumber": "XXXXXX"
+  }
+}

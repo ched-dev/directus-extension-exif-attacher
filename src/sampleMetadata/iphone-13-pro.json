@@ -1,0 +1,102 @@
+{
+  "ifd0": {
+    "Make": "Apple",
+    "Model": "iPhone 13 Pro",
+    "Orientation": "Rotate 90 CW",
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "Software": "15.2.1",
+    "ModifyDate": "2022-02-27T16:06:59.000Z",
+    "HostComputer": "iPhone 13 Pro",
+    "YCbCrPositioning": 1
+  },
+  "ifd1": {
+    "Compression": 6,
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "ThumbnailOffset": 2872,
+    "ThumbnailLength": 13422
+  },
+  "exif": {
+    "ExposureTime": 0.0008748906386701663,
+    "FNumber": 2.8,
+    "ExposureProgram": "Normal program",
+    "ISO": 32,
+    "ExifVersion": "2.3.2",
+    "DateTimeOriginal": "2022-02-27T16:06:59.000Z",
+    "CreateDate": "2022-02-27T16:06:59.000Z",
+    "OffsetTime": "-07:00",
+    "OffsetTimeOriginal": "-07:00",
+    "OffsetTimeDigitized": "-07:00",
+    "ComponentsConfiguration": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 0
+    },
+    "ShutterSpeedValue": 10.158429364063167,
+    "ApertureValue": 2.970853653853539,
+    "BrightnessValue": 9.3826685327735,
+    "ExposureCompensation": 0,
+    "MeteringMode": "Pattern",
+    "Flash": "Flash did not fire, compulsory flash mode",
+    "FocalLength": 9,
+    "SubjectArea": {
+      "0": 2013,
+      "1": 1500,
+      "2": 2310,
+      "3": 1327
+    },
+    "SubSecTimeOriginal": "008",
+    "SubSecTimeDigitized": "008",
+    "FlashpixVersion": "1.0",
+    "ColorSpace": 65535,
+    "ExifImageWidth": 4032,
+    "ExifImageHeight": 3024,
+    "SensingMethod": "One-chip color area sensor",
+    "SceneType": "Directly photographed",
+    "ExposureMode": "Auto",
+    "WhiteBalance": "Auto",
+    "FocalLengthIn35mmFormat": 77,
+    "SceneCaptureType": "Standard",
+    "LensInfo": [
+      1.5700000524639703,
+      9,
+      1.5,
+      2.8
+    ],
+    "LensMake": "Apple",
+    "LensModel": "iPhone 13 Pro back triple camera 9mm f/2.8",
+    "CompositeImage": "General Composite Image"
+  },
+  "gps": {
+    "GPSLatitudeRef": "N",
+    "GPSLatitude": [
+      39,
+      58,
+      26.05
+    ],
+    "GPSLongitudeRef": "W",
+    "GPSLongitude": [
+      105,
+      16,
+      9.95
+    ],
+    "GPSAltitudeRef": {
+      "0": 0
+    },
+    "GPSAltitude": 1743.7139896373058,
+    "GPSSpeedRef": "K",
+    "GPSSpeed": 0.014550499635950856,
+    "GPSImgDirectionRef": "T",
+    "GPSImgDirection": 221.84089666484417,
+    "GPSDestBearingRef": "True North",
+    "GPSDestBearing": 221.84089666484417,
+    "GPSDateStamp": "2022:02:27",
+    "GPSHPositioningError": 4.774358266629865,
+    "latitude": 39.97390277777778,
+    "longitude": -105.26943055555556
+  }
+}

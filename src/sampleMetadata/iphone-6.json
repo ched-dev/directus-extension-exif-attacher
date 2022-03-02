@@ -1,0 +1,66 @@
+{
+  "iptc": {},
+  "ifd0": {
+    "Make": "Apple",
+    "Model": "iPhone 6s",
+    "Orientation": "Horizontal (normal)",
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "Software": "Instagram",
+    "ModifyDate": "2016-11-17T19:34:10.000Z",
+    "YCbCrPositioning": 1
+  },
+  "ifd1": {
+    "Compression": 6,
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "ThumbnailOffset": 828,
+    "ThumbnailLength": 6555
+  },
+  "exif": {
+    "ExposureTime": 0.06666666666666667,
+    "FNumber": 2.2,
+    "ExposureProgram": "Normal program",
+    "ISO": 400,
+    "ExifVersion": "2.2.1",
+    "DateTimeOriginal": "2016-11-17T19:34:10.000Z",
+    "CreateDate": "2016-11-17T19:34:10.000Z",
+    "ComponentsConfiguration": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 0
+    },
+    "ExposureCompensation": 0,
+    "FocalLength": 4.15,
+    "FlashpixVersion": "1.0",
+    "ColorSpace": 1,
+    "ExifImageWidth": 1575,
+    "ExifImageHeight": 2100,
+    "SceneCaptureType": "Standard",
+    "LensMake": "Apple",
+    "LensModel": "iPhone 6s back camera 4.15mm f/2.2"
+  },
+  "gps": {
+    "GPSLatitudeRef": "N",
+    "GPSLatitude": [
+      39,
+      44,
+      45.59
+    ],
+    "GPSLongitudeRef": "W",
+    "GPSLongitude": [
+      104,
+      56,
+      44.83
+    ],
+    "GPSAltitude": 1608.8285714285714,
+    "GPSTimeStamp": "0:0:0",
+    "GPSDOP": 1,
+    "GPSDateStamp": "1970:01:01",
+    "latitude": 39.74599722222222,
+    "longitude": -104.94578611111112
+  }
+}
