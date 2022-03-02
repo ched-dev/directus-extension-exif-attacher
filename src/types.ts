@@ -105,11 +105,22 @@ export interface FileMetadata {
 }
 
 /**
+ * A Directus GPS Point column data type
+ */
+export type GPSPoint = {
+	type: "Point";
+	coordinates: [
+		FileMetadata["gps"]["longitude"],
+		FileMetadata["gps"]["latitude"]
+	];
+}
+
+/**
  * Internal type used to copy / remove field values from Data Model
  */
  export interface EXIFField {
 	prop: string;
-	getValue: (metadata: FileMetadata) => string | number | Date;
+	getValue: (metadata: FileMetadata) => string | number | Date | GPSPoint | undefined | null;
 }
 
 /**

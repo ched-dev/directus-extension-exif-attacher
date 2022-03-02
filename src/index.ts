@@ -4,23 +4,31 @@ import { File, FileMetadata, ExifCollection } from "./types";
 import defaultExifFields from "./exifFields";
 import { EXIF_COLLECTIONS, DEBUG } from "./config";
 
-// This file is the guts. You shouldn't change anything in this file unless you know what you are doing. See `config.ts` for configuring.
+// This file is the guts. You shouldn't change anything in this file unless you know what you are doing. See `src/config.ts` for configuring.
 
 const generateExifAttacher = (services: any, exifCollection: ExifCollection) => {
 	return async function(item, meta, context) {
-		DEBUG && console.log(`${exifCollection.name} attachExifData start:`, {
-			item,
-			meta
-		});
-		
+		const collectionSchema = context.schema?.collections[exifCollection.name]
 		const imageFieldKey = exifCollection.imageFieldKey || "image";
 		const imageId = item.hasOwnProperty(imageFieldKey) ? item[imageFieldKey] : undefined;
+
+		DEBUG && console.log(`${exifCollection.name} attachExifData info:`, {
+			item,
+			meta,
+			collectionSchema,
+			imageFieldKey,
+			imageId
+		});
 	
 		if (imageId) {
 			const exifFields = exifCollection.exifFields || defaultExifFields;
 
 			// delete existing exif data since image changed
-			exifFields.map(field => item[field.prop] = null);
+			exifFields.map(field => {
+				if (collectionSchema?.fields.hasOwnProperty(field.prop)) {
+					item[field.prop] = null
+				}
+			});
 	
 			if (services && services.ItemsService) {
 				const filesService = new services.ItemsService("directus_files", {
@@ -34,7 +42,13 @@ const generateExifAttacher = (services: any, exifCollection: ExifCollection) => 
 	
 				if (imageInfo && imageInfo.metadata) {
 					exifFields.map(field => {
-						item[field.prop] = field.getValue(imageInfo.metadata as FileMetadata);
+						if (collectionSchema?.fields.hasOwnProperty(field.prop)) {
+							item[field.prop] = field.getValue(imageInfo.metadata as FileMetadata) || null;
+						} else {
+							DEBUG && console.log(`${exifCollection.name} attachExifData fieldMissing:`, {
+								fieldProp: field.prop
+							});
+						}
 					});
 				}
 			}

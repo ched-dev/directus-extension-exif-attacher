@@ -17,16 +17,18 @@ Default EXIF Fields:
 dateTaken: DateTime;
 cameraMake: string;
 cameraModel: string;
-iso: number;
-exposure: number;
-aperture: number;
-focalLength: number;
-focalLengthIn35mm: number;
+iso: Integer;
+exposure: Float;
+exposureFormatted: string;
+aperture: Float;
+focalLength: Float;
+focalLengthIn35mm: Float;
 lensMake: string;
 lensModel: string;
-// coming soon
 gps: Point;
 ```
+
+All fields should "Allow NULL value" in case data is missing. If a field does not exist on the schema, we will not try to add it. Make sure your field names match.
 
 ## Setup in your Directus installation
 

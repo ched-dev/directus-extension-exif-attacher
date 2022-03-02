@@ -1,4 +1,4 @@
-import { EXIFField } from "./types";
+import { EXIFField, GPSPoint } from "./types";
 
 /**
  * Default collection of exifFields
@@ -25,6 +25,24 @@ const defaultExifFields: EXIFField[] = [
 		getValue: (metadata) =>  metadata.exif?.ExposureTime
 	},
 	{
+		prop: "exposureFormatted",
+		getValue: (metadata) =>  {
+			if (metadata.exif?.ExposureTime) {
+				const exposureTime = metadata.exif?.ExposureTime;
+				
+				if (exposureTime < 1) {
+					// 1/200
+					return `1/` + Math.round(1 / exposureTime);
+				} else {
+					// 3.5" 1"
+					return Number(exposureTime.toFixed(1)) + `"`;
+				}
+			}
+			
+			return null;
+		}
+	},
+	{
 		prop: "aperture",
 		getValue: (metadata) =>  metadata.exif?.FNumber
 	},
@@ -43,6 +61,22 @@ const defaultExifFields: EXIFField[] = [
 	{
 		prop: "lensModel",
 		getValue: (metadata) =>  metadata.exif?.LensModel
+	},
+	{
+		prop: "gps",
+		getValue: (metadata) =>  {
+			if (metadata.gps?.longitude && metadata.gps?.latitude) {
+				const gpsPoint: GPSPoint = {
+					type: "Point",
+					coordinates: [
+						metadata.gps.longitude,
+						metadata.gps.latitude
+					]
+				};
+				return gpsPoint;
+			}
+			return null;
+		}
 	}
 ];
 
