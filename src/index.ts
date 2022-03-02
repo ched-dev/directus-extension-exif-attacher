@@ -8,10 +8,9 @@ import { EXIF_COLLECTIONS, DEBUG } from "./config";
 
 const generateExifAttacher = (services: any, exifCollection: ExifCollection) => {
 	return async function(item, meta, context) {
-		DEBUG && console.log(`${exifCollection.name} item:`, {
+		DEBUG && console.log(`${exifCollection.name} attachExifData start:`, {
 			item,
-			meta,
-			schema: context.schema
+			meta
 		});
 		
 		const imageFieldKey = exifCollection.imageFieldKey || "image";
@@ -29,7 +28,7 @@ const generateExifAttacher = (services: any, exifCollection: ExifCollection) => 
 				});
 				const imageInfo = await filesService.readOne(imageId) as File;
 
-				DEBUG && console.log(`${exifCollection.name} imageInfo:`, {
+				DEBUG && console.log(`${exifCollection.name} attachExifData imageInfo:`, {
 					imageInfo
 				});
 	
@@ -40,9 +39,11 @@ const generateExifAttacher = (services: any, exifCollection: ExifCollection) => 
 				}
 			}
 	
-			DEBUG && console.log(`${exifCollection.name} updated item:`, {
+			DEBUG && console.log(`${exifCollection.name} attachExifData updated:`, {
 				item
 			});
+		} else {
+			DEBUG && console.log(`${exifCollection.name} attachExifData noImage`);
 		}
 	
 		return item;

@@ -6,6 +6,8 @@ We built this extension [live on stream](https://www.twitch.tv/videos/1411653279
 
 ## Configurable Options
 
+Configuration is stored in `src/config.ts`.
+
 - [x] Support a single Data Model
 - [x] Support multiple Data Models
 - [x] Support changing of fields to copy, manipulate data
@@ -53,21 +55,42 @@ Install the dependencies:
 npm install
 ```
 
-Set up a symlink to have your build loaded into your Directus project. From the parent of your Directus project and extension build, run:
-
-```sh
-ln -s directus-project/extensions/hooks/exif-attacher directus-extension-exif-attacher
-```
-
-Build the extension, or do a watch build from within the `directus-extension-exif-attacher` folder:
+Build the extension to generate the latest output:
 
 ```sh
 npm run build
-# or to watch for changes
-npm run watch
 ```
 
-Any time you re-build, you will need to restart your local Directus project to load the latest extension changes.
+Finally, to load the extension into your Directus project, we'll set up a symlink. Run the following commands: (adjust your folder names as needed)
+
+```sh
+cd ../directus-project/extensions/hooks/
+ln -s ../../../directus-extension-exif-attacher/dist/ exif-attacher
+```
+
+To confirm the extension was installed correctly, you should be able to run your Directus project successfully:
+
+```sh
+# from hooks/ directory
+cd ../../
+npm run start
+```
+
+Output similar to:
+
+```
+> directus-project@1.0.0 start
+> directus start
+
+17:43:34 ✨ Loaded extensions: exif-attacher
+17:43:34 ✨ Server started at http://localhost:8055
+```
+
+Please note, any time you re-build your extension, you will need to restart your local Directus project to load the latest extension changes. You can actively develop and rebuild the extension with the watch command:
+
+```sh
+npm run watch
+```
 
 ## License
 
