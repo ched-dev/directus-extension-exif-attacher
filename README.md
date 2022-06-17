@@ -34,6 +34,14 @@ All fields should "Allow NULL value" in case data is missing. If a field does no
 
 A few steps are needed to setup this hook.
 
+### Requirements
+
+- Directus 9.4+ (or later?) locally installed
+- node 16+ & npm 8+
+- MacOS or Linux (CLI commands need to be fixed for Windows)
+
+_Note: Only tested on Directus 9.4.3_
+
 ### One time setup
 
 Copy the `.env.sample` to your environment variables
@@ -55,6 +63,11 @@ npm run create-data-model
 You will be prompted for all the required information.
 
 
+### Install (or reinstall) exif-data-attacher hook in Directus
+
+```
+npm run install-hook
+```
 
 - Configure the settings in `src/config.ts`
 - Build the extension with `npm run build`

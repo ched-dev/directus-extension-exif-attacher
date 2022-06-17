@@ -14,9 +14,11 @@
 		"host": "^9.5.2"
 	},
 	"scripts": {
+		"help": "directus-extension build --help",
 		"build": "directus-extension build",
 		"watch": "directus-extension build --watch",
-		"create-data-model": "node tasks/create-data-model.js"
+		"create-data-model": "node tasks/create-data-model.js",
+		"install-hook": "npm run build && node tasks/install-hook.js"
 	},
 	"devDependencies": {
 		"@directus/extensions-sdk": "9.5.2",

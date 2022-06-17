@@ -1,9 +1,7 @@
-import { EXIFField, GPSPoint } from "./types";
-
 /**
  * Default collection of exifFields
  */
-const defaultExifFields: EXIFField[] = [
+const defaultExifFields = [
 	{
 		prop: "dateTaken",
 		getValue: (metadata) =>  metadata.exif?.CreateDate
@@ -66,7 +64,7 @@ const defaultExifFields: EXIFField[] = [
 		prop: "gps",
 		getValue: (metadata) =>  {
 			if (metadata.gps?.longitude && metadata.gps?.latitude) {
-				const gpsPoint: GPSPoint = {
+				const gpsPoint = {
 					type: "Point",
 					coordinates: [
 						metadata.gps.longitude,
@@ -80,4 +78,4 @@ const defaultExifFields: EXIFField[] = [
 	}
 ];
 
-export default defaultExifFields;
+module.exports = defaultExifFields;

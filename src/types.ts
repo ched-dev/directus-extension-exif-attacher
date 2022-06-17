@@ -128,6 +128,6 @@ export type GPSPoint = {
  */
 export interface ExifCollection {
 	name: string; // Directus Collection name
-	imageFieldKey?: string; // Collection field key for image (default "image")
-	exifFields?: EXIFField[]; // Exif fields to grab (defualt defaultExifFields)
+	imageFieldName: string; // Collection field key for image (default "image")
+	fields: EXIFField[]; // Exif fields to grab (defualt defaultExifFields)
 }

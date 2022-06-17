@@ -1,7 +1,16 @@
 require("dotenv").config();
 
+// this file runs from /tasks/
+const fs = require("fs");
 const { build } = require("../directus-schema-builder");
 const cli = require("inquirer");
+const {
+  JSON_CONFIG_FILENAME,
+  DATA_MODELS_CONFIG_PROP,
+  currentConfig,
+  exifDataModels
+} = require("../src/config");
+
 
 /**
  * Turn on debugging options for testing locally
@@ -89,6 +98,10 @@ if (!baseURL || !email || !password) {
   console.error(`---------- ERROR -----------`);
   console.error(`Error: Environment variables not set. See README.md`);
   process.exit(0);
+}
+
+if (exifDataModels) {
+  console.log("Current EXIF Data Models:", exifDataModels, `\n`);
 }
 
 cli.prompt([
@@ -241,5 +254,29 @@ function runSchema(settings) {
         }
       });
     }
+
+    // add to json config
+    if (Array.isArray(exifDataModels)) {
+      setConfigJSON({
+        ...currentConfig,
+        [DATA_MODELS_CONFIG_PROP]: exifDataModels.concat(settings)
+      })
+    }
+    else {
+      console.log('ERROR: Could not read config file.')
+    }
   });
 };
+
+
+function setConfigJSON(config) {
+  const jsonData = JSON.stringify(config, null, 2);
+  return fs.writeFile("./" + JSON_CONFIG_FILENAME, jsonData, (err) => {
+    if (err) {
+      console.log('ERROR: Could not write config file.');
+      return;
+    }
+
+    console.log('Updated exif-attacher-config.json!', config);
+  });
+}
