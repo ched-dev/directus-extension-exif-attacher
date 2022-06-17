@@ -3,15 +3,15 @@
  */
 const defaultExifFields = [
 	{
-		prop: "dateTaken",
+		prop: "date_taken",
 		getValue: (metadata) =>  metadata.exif?.CreateDate
 	},
 	{
-		prop: "cameraMake",
+		prop: "camera_make",
 		getValue: (metadata) =>  metadata.ifd0?.Make
 	},
 	{
-		prop: "cameraModel",
+		prop: "camera_model",
 		getValue: (metadata) =>  metadata.ifd0?.Model
 	},
 	{
@@ -23,7 +23,7 @@ const defaultExifFields = [
 		getValue: (metadata) =>  metadata.exif?.ExposureTime
 	},
 	{
-		prop: "exposureFormatted",
+		prop: "exposure_formatted",
 		getValue: (metadata) =>  {
 			if (metadata.exif?.ExposureTime) {
 				const exposureTime = metadata.exif?.ExposureTime;
@@ -45,19 +45,19 @@ const defaultExifFields = [
 		getValue: (metadata) =>  metadata.exif?.FNumber
 	},
 	{
-		prop: "focalLength",
+		prop: "focal_length",
 		getValue: (metadata) =>  metadata.exif?.FocalLength
 	},
 	{
-		prop: "focalLengthIn35mm",
+		prop: "focal_length_in_35mm",
 		getValue: (metadata) =>  metadata.exif?.FocalLengthIn35mmFormat
 	},
 	{
-		prop: "lensMake",
+		prop: "lens_make",
 		getValue: (metadata) =>  metadata.exif?.LensMake
 	},
 	{
-		prop: "lensModel",
+		prop: "lens_model",
 		getValue: (metadata) =>  metadata.exif?.LensModel
 	},
 	{
