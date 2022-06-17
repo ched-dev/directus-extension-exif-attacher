@@ -34,8 +34,28 @@ All fields should "Allow NULL value" in case data is missing. If a field does no
 
 A few steps are needed to setup this hook.
 
-- Create the fields on the Data Model(s) you want to add EXIF data
-  - _NOTE: looking into automating this_
+### One time setup
+
+Copy the `.env.sample` to your environment variables
+
+```sh
+cp .env.sample .env
+```
+
+Update the `.env` values with the login information for a user with permissions to create a Data Model. These environment variables do not need to be added to your production server. They are only required in the local development environment. DO NOT CHECK THEM IN TO SOURCE CONTROL.
+
+### Create a Data Model with EXIF fields
+
+We have created a simple command line tool to create the data model for you in your Directus installation. After setting up the environment variables, you can this command to create a new Data Model:
+
+```
+npm run create-data-model
+```
+
+You will be prompted for all the required information.
+
+
+
 - Configure the settings in `src/config.ts`
 - Build the extension with `npm run build`
 - Copy the content of `dist/index.js` to your Directus project at `extensions/hooks/exif-attacher.js`

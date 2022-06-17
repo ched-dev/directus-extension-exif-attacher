@@ -21,8 +21,8 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"allowSyntheticDefaultImports": true,
-		"isolatedModules": true,
+		"isolatedModules": false,
 		"rootDir": "./src"
 	},
-	"include": ["./src/**/*.ts"]
+	"include": ["./src/**/*.ts", "src/data-model-generator.js"]
 }
