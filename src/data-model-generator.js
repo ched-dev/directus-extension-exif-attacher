@@ -1,127 +1,29 @@
 require("dotenv").config();
 
-// this file runs from /tasks/
-const fs = require("fs");
+// this file runs from /tasks/ or /bin/
 const { build } = require("../directus-schema-builder");
 const cli = require("inquirer");
-const {
-  JSON_CONFIG_FILENAME,
-  DATA_MODELS_CONFIG_PROP,
-  // currentConfig,
-  // exifDataModels
-} = require("../src/config");
+const { env, saveConfigJSON } = require("../src/config");
 
 
 /**
  * Turn on debugging options for testing locally
  */
 const DEBUGGING = {
-  logging: false,
+  logging: env.DEBUG,
   /**
    * Auto append a timestamp to the data model name to create unique data models
    */
   appendTimestampToDataModel: false
 };
 
-// Pull connection info from `.env`
-const baseURL = process.env.DIRECTUS_URL;
-const email = process.env.DIRECTUS_ADMIN_EMAIL;
-const password = process.env.DIRECTUS_ADMIN_PASSWORD;
+module.exports = {
+  createDataModel
+}
 
-const EXIF_FIELDS = [
-  {
-    name: "image",
-    required: true,
-    buildSchema: (dataModel, field, settings) => dataModel.image(settings.imageFieldName)
-  },
-  {
-    name: "exif_divider",
-    required: true,
-    buildSchema: (dataModel, field) => {
-      return dataModel.field(field.name, "alias", {}, {
-        special: ["alias", "no-data"]
-      }).interface("presentation-divider", {
-        title: "$t:EXIF Fields (Read Only)",
-        marginTop: true,
-        inlineTitle: true
-      }).translation("en-US", "EXIF Fields (Read Only)")
-    }
-  },
-  {
-    name: "date_taken",
-    buildSchema: (dataModel, field) => dataModel.datetime(field.name).interface("datetime").readonly().width("half")
-  },
-  {
-    name: "camera_make",
-    buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "camera_model",
-    buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "iso",
-    buildSchema: (dataModel, field) => dataModel.integer(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "exposure",
-    buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "exposure_formatted",
-    buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "aperture",
-    buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "focal_length",
-    buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "focal_length_in_35mm",
-    buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "lens_make",
-    buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "lens_model",
-    buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
-  },
-  {
-    name: "gps",
-    buildSchema: (dataModel, field) => dataModel.geometryPoint(field.name).interface("map").readonly()
-  }
-];
-
-
-
-module.exports = async function createDataModel(currentConfig) {
-  if (!baseURL || !email || !password) {
-    console.error(`---------- ERROR -----------`);
-    console.error(`Error: Environment variables not set. See README.md`);
-    process.exit(0);
-  }
-
-  if (typeof currentConfig !== 'object') {
-    console.error(`---------- INTERNAL ERROR -----------`);
-    console.error(`Error: JSON config not correct type`);
-    process.exit(0);
-  }
-
-  const exifDataModels = currentConfig && currentConfig.hasOwnProperty(DATA_MODELS_CONFIG_PROP) && currentConfig[DATA_MODELS_CONFIG_PROP]
-
-  if (!Array.isArray(exifDataModels)) {
-    console.error(`---------- ERROR -----------`);
-    console.error(`Error: JSON config should have an array on \`${DATA_MODELS_CONFIG_PROP}\``);
-    process.exit(0);
-  }
-
-  if (exifDataModels) {
-    console.log("Current EXIF Data Models:", exifDataModels, `\n`);
+async function createDataModel() {
+  if (env.EXIF_DATA_MODEL_NAMES.length) {
+    console.log("Current EXIF Data Models:", env.EXIF_DATA_MODEL_NAMES, `\n`);
   }
 
   const config = await cli.prompt([
@@ -149,7 +51,15 @@ async function exifCreate() {
       message: "What do you want to name the new Data Model? (Ex: media_library, mediaLibrary)",
       default: "media_library",
       validate(name) {
-        return /^[a-zA-Z0-9_]+$/.test(name) ? true : "Alpha-numeric and underscores only";
+        if (/^[a-zA-Z0-9_]+$/.test(name) === false) {
+          return "Alpha-numeric and underscores only"
+        }
+
+        if (env.EXIF_DATA_MODEL_NAMES.includes(name)) {
+          return "Data Model name is already in use"
+        }
+
+        return true;
       },
     }
   ]);
@@ -160,7 +70,7 @@ async function exifCreate() {
       message: "Which fields do you want to include?",
       name: "fields",
       loop: false,
-      choices: EXIF_FIELDS.map(field => ({
+      choices: getSchemaBuilderExifFields().map(field => ({
         ...field,
         checked: true,
         disabled: field.required ? "required" : undefined
@@ -208,7 +118,11 @@ async function exifCreate() {
     }
 
     console.error(`Error creating \`${settings.name}\` Data Model:`);
-    console.error(`>`, e.message);
+    console.error(`>`, e.message, `\n`);
+
+    if (['ENOTFOUND', 'ECONNREFUSED'].includes(e.code)) {
+      console.info(`Is your Directus instance running at \`${env.DIRECTUS_URL}\`?`)
+    }
   }
 }
 
@@ -234,7 +148,7 @@ function runSchema(settings) {
     console.log("Adding standard field: user_updated");
     media.user_updated("user_updated").hidden().readonly().width("half");
     // custom fields
-    EXIF_FIELDS.map(field => {
+    getSchemaBuilderExifFields().map(field => {
       // skip disabled fields (unless it is required)
       if (!field.required && !settings.fields.includes(field.name)) {
         return;
@@ -255,7 +169,11 @@ function runSchema(settings) {
     // });
   });
 
-  return model.fetch(baseURL, email, password).then(({ collections, relations }) => {
+  return model.fetch(
+    env.DIRECTUS_URL,
+    env.DIRECTUS_ADMIN_EMAIL,
+    env.DIRECTUS_ADMIN_PASSWORD
+  ).then(async ({ collections, relations }) => {
     if (DEBUGGING.logging) {
       console.log("DEBUG: collections", JSON.stringify(collections, null, 2));
       console.log("DEBUG: relations", JSON.stringify(relations, null, 2));
@@ -277,10 +195,10 @@ function runSchema(settings) {
     }
 
     // add to json config
-    if (Array.isArray(exifDataModels)) {
-      setConfigJSON({
-        ...currentConfig,
-        [DATA_MODELS_CONFIG_PROP]: exifDataModels.concat(settings)
+    if (Array.isArray(env.EXIF_DATA_MODELS)) {
+      await saveConfigJSON({
+        ...env.JSON_CONFIG,
+        [env.JSON_CONFIG_DATA_MODELS_PROP]: env.EXIF_DATA_MODELS.concat(settings)
       })
     }
     else {
@@ -291,15 +209,77 @@ function runSchema(settings) {
   });
 };
 
-
-function setConfigJSON(config) {
-  const jsonData = JSON.stringify(config, null, 2);
-  return fs.writeFile("./" + JSON_CONFIG_FILENAME, jsonData, (err) => {
-    if (err) {
-      console.log('ERROR: Could not write config file.');
-      return;
+/**
+ * Get fields for SchemaBuilder
+ * @returns Array
+ */
+function getSchemaBuilderExifFields() {
+  return [
+    {
+      name: "image",
+      required: true,
+      buildSchema: (dataModel, field, settings) => dataModel.image(settings.imageFieldName)
+    },
+    {
+      name: "exif_divider",
+      required: true,
+      buildSchema: (dataModel, field) => {
+        return dataModel.field(field.name, "alias", {}, {
+          special: ["alias", "no-data"]
+        }).interface("presentation-divider", {
+          title: "$t:EXIF Fields (Read Only)",
+          marginTop: true,
+          inlineTitle: true
+        }).translation("en-US", "EXIF Fields (Read Only)")
+      }
+    },
+    {
+      name: "date_taken",
+      buildSchema: (dataModel, field) => dataModel.datetime(field.name).interface("datetime").readonly().width("half")
+    },
+    {
+      name: "camera_make",
+      buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "camera_model",
+      buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "iso",
+      buildSchema: (dataModel, field) => dataModel.integer(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "exposure",
+      buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "exposure_formatted",
+      buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "aperture",
+      buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "focal_length",
+      buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "focal_length_in_35mm",
+      buildSchema: (dataModel, field) => dataModel.float(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "lens_make",
+      buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "lens_model",
+      buildSchema: (dataModel, field) => dataModel.string(field.name).interface("input").readonly().width("half")
+    },
+    {
+      name: "gps",
+      buildSchema: (dataModel, field) => dataModel.geometryPoint(field.name).interface("map").readonly()
     }
-
-    console.log('Updated exif-attacher-config.json!', config);
-  });
+  ];
 }
