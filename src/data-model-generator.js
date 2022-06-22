@@ -99,7 +99,7 @@ const EXIF_FIELDS = [
 
 
 
-module.export = function createDataModel(currentConfig) {
+module.exports = function createDataModel(currentConfig) {
   if (!baseURL || !email || !password) {
     console.error(`---------- ERROR -----------`);
     console.error(`Error: Environment variables not set. See README.md`);
