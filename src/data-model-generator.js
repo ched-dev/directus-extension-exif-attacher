@@ -124,21 +124,21 @@ module.exports = async function createDataModel(currentConfig) {
     console.log("Current EXIF Data Models:", exifDataModels, `\n`);
   }
 
-  await cli.prompt([
+  const config = await cli.prompt([
     {
       type: "confirm",
       name: "isNew",
       message: "This tool will create a new Data Model with EXIF data fields. Do you wish to continue?",
       default: true
     }
-  ]).then(config => {
-    if (config.isNew) {
-      exifCreate();
-    }
-    else {
-      console.log('Exiting with no changes made.')
-    }
-  });
+  ]);
+
+  if (config.isNew) {
+    await exifCreate();
+  }
+  else {
+    console.log('Exiting with no changes made.')
+  }
 }
 
 async function exifCreate() {
