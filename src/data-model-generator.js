@@ -99,7 +99,7 @@ const EXIF_FIELDS = [
 
 
 
-module.exports = function createDataModel(currentConfig) {
+module.exports = async function createDataModel(currentConfig) {
   if (!baseURL || !email || !password) {
     console.error(`---------- ERROR -----------`);
     console.error(`Error: Environment variables not set. See README.md`);
@@ -124,7 +124,7 @@ module.exports = function createDataModel(currentConfig) {
     console.log("Current EXIF Data Models:", exifDataModels, `\n`);
   }
 
-  cli.prompt([
+  await cli.prompt([
     {
       type: "confirm",
       name: "isNew",
