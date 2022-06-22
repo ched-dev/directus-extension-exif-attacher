@@ -127,6 +127,12 @@ Please note, any time you re-build your extension, you will need to restart your
 npm run watch
 ```
 
+## This does something
+
+```
+npx directus-extension build -f --type hook --input node_modules/exif-attacher/src/index.ts --output ./extensions/hooks/exif-attacher/index.js
+```
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE) and is free for you to fork, use, or change.

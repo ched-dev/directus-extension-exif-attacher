@@ -15,7 +15,8 @@
 	},
 	"bin": {
 		"create-data-model": "bin/create-data-model.js",
-		"install-hook": "bin/install-hook.js"
+		"install-hook": "bin/install-hook.js",
+		"install": "bin/readme.js"
 	},
 	"scripts": {
 		"help": "directus-extension build --help",
