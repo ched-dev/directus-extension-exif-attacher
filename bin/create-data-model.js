@@ -1,2 +1,2 @@
 #! /usr/bin/env node
-require('../src/data-model-generator')
+require('../tasks/create-data-model')
