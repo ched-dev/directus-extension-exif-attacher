@@ -13,11 +13,6 @@
 		"source": "src/index.ts",
 		"host": "^9.5.2"
 	},
-	"bin": {
-		"create-data-model": "bin/create-data-model.js",
-		"install-hook": "bin/install-hook.js",
-		"install": "bin/readme.js"
-	},
 	"scripts": {
 		"help": "directus-extension build --help",
 		"build": "directus-extension build",

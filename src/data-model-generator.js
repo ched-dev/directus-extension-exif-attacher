@@ -7,8 +7,8 @@ const cli = require("inquirer");
 const {
   JSON_CONFIG_FILENAME,
   DATA_MODELS_CONFIG_PROP,
-  currentConfig,
-  exifDataModels
+  // currentConfig,
+  // exifDataModels
 } = require("../src/config");
 
 
@@ -17,6 +17,9 @@ const {
  */
 const DEBUGGING = {
   logging: false,
+  /**
+   * Auto append a timestamp to the data model name to create unique data models
+   */
   appendTimestampToDataModel: false
 };
 
@@ -94,31 +97,49 @@ const EXIF_FIELDS = [
   }
 ];
 
-if (!baseURL || !email || !password) {
-  console.error(`---------- ERROR -----------`);
-  console.error(`Error: Environment variables not set. See README.md`);
-  process.exit(0);
-}
 
-if (exifDataModels) {
-  console.log("Current EXIF Data Models:", exifDataModels, `\n`);
-}
 
-cli.prompt([
-  {
-    type: "confirm",
-    name: "isNew",
-    message: "This tool will create a new Data Model with EXIF data fields. Do you wish to continue?",
-    default: true
+module.export = function createDataModel(currentConfig) {
+  if (!baseURL || !email || !password) {
+    console.error(`---------- ERROR -----------`);
+    console.error(`Error: Environment variables not set. See README.md`);
+    process.exit(0);
   }
-]).then(config => {
-  if (config.isNew) {
-    exifCreate();
+
+  if (typeof currentConfig !== 'object') {
+    console.error(`---------- INTERNAL ERROR -----------`);
+    console.error(`Error: JSON config not correct type`);
+    process.exit(0);
   }
-  else {
-    console.log('Exiting with no changes made.')
+
+  const exifDataModels = currentConfig && currentConfig.hasOwnProperty(DATA_MODELS_CONFIG_PROP) && currentConfig[DATA_MODELS_CONFIG_PROP]
+
+  if (!Array.isArray(exifDataModels)) {
+    console.error(`---------- ERROR -----------`);
+    console.error(`Error: JSON config should have an array on \`${DATA_MODELS_CONFIG_PROP}\``);
+    process.exit(0);
   }
-});
+
+  if (exifDataModels) {
+    console.log("Current EXIF Data Models:", exifDataModels, `\n`);
+  }
+
+  cli.prompt([
+    {
+      type: "confirm",
+      name: "isNew",
+      message: "This tool will create a new Data Model with EXIF data fields. Do you wish to continue?",
+      default: true
+    }
+  ]).then(config => {
+    if (config.isNew) {
+      exifCreate();
+    }
+    else {
+      console.log('Exiting with no changes made.')
+    }
+  });
+}
 
 async function exifCreate() {
   const { name } = await cli.prompt([
@@ -265,6 +286,8 @@ function runSchema(settings) {
     else {
       console.log('ERROR: Could not read config file.')
     }
+
+    // TO DO: install hook
   });
 };
 
