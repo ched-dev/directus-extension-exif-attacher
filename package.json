@@ -13,6 +13,10 @@
 		"source": "src/index.ts",
 		"host": "^9.5.2"
 	},
+	"bin": {
+		"exif-attacher": "bin/create-data-model.js",
+		"build-hook": "directus-extension build -f -t hook -i src/index.ts -o extensions/hooks/exif-attacher/index.js"
+	},
 	"scripts": {
 		"help": "directus-extension build --help",
 		"build": "directus-extension build",
