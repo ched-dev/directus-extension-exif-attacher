@@ -1,29 +1,34 @@
 #! /usr/bin/env node
-require("dotenv").config();
+// require("dotenv").config();
 
 const { exec } = require('child_process');
+const { loadConfigAndRun, generateExifDataModelsFile } = require('../src/config');
 
-const DIRECTUS_LOCAL_INSTALL_PATH = process.env.DIRECTUS_LOCAL_INSTALL_PATH
-const DIRECTUS_HOOK_PATH = `/extensions/hooks/exif-attacher/index.js`
-const DIST_FILE = `./dist/index.js`;
+// const copyCommand = `cp ${DIST_FILE} ${DIRECTUS_LOCAL_INSTALL_PATH}${DIRECTUS_HOOK_PATH}`;
+const buildCommand = `cd node_modules/exif-attacher && npm run install-hook-from-package`;
 
-if (!DIRECTUS_LOCAL_INSTALL_PATH) {
-  console.error(`---------- ERROR -----------`);
-  console.error(`Error: Environment variables not set. See README.md`);
-  process.exit(0);
-}
+loadConfigAndRun(async () => {
+  // copy JSON config for build source
+  await generateExifDataModelsFile()
 
-const copyCommand = `cp ${DIST_FILE} ${DIRECTUS_LOCAL_INSTALL_PATH}${DIRECTUS_HOOK_PATH}`;
+  console.log('>', buildCommand, `\n`)
+  console.log('Building hook...')
+  exec(buildCommand, (err, stdout, stderr) => {
+    if (err) {
+      console.error(`---------- ERROR -----------`);
+      console.error(err)
+    } else {
+      // console.log(`stdout: ${stdout}`);
+      // console.log(`stderr: ${stderr}`);
+      console.log(stdout)
 
-exec(copyCommand, (err, stdout, stderr) => {
-  if (err) {
-    //some err occurred
-    console.error(err)
-  } else {
-   // the *entire* stdout and stderr (buffered)
-   console.log(`stdout: ${stdout}`);
-   console.log(`stderr: ${stderr}`);
-  }
-});
-
-// cp ./dist/index.js $DIRECTUS_LOCAL_INSTALL_PATH/extensions/hooks/exif-attacher/index.js
+      if (stderr.includes('✔ Done')) {
+        console.log(`Success!\n`)
+        console.log(`Don't forget to restart your Directus.`)
+      } else {
+        console.error(`---------- ERROR -----------`);
+        console.log('ERROR:', stderr)
+      }
+    }
+  });
+})

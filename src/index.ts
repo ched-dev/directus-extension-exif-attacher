@@ -4,9 +4,16 @@ import { File, FileMetadata, ExifCollection } from "./types";
 // @ts-ignore
 import defaultExifFields from "./exifFields";
 // @ts-ignore
-import { EXIF_COLLECTIONS, DEBUG } from "./config";
+import { env, DEBUG } from "./config";
+// @ts-ignore
+import exifDataModels from "./generated-exif-data-models";
 
 // This file is the guts. You shouldn't change anything in this file unless you know what you are doing. See `src/config.ts` for configuring.
+
+const EXIF_COLLECTIONS: ExifCollection[] = exifDataModels.map((dataModel: any) => ({
+	...dataModel,
+	fields: dataModel.fields.map((fieldName: string) => defaultExifFields.find((exifField: any) => exifField.prop === fieldName))
+}))
 
 const generateExifAttacher = (services: any, exifCollection: ExifCollection) => {
 	return async function(item, meta, context) {
@@ -73,5 +80,9 @@ export default defineHook(({ filter }, { services }) => {
 
 		filter(`${exifCollection.name}.items.create`, attachExifData);
 		filter(`${exifCollection.name}.items.update`, attachExifData);
+		console.log(`exif-attacher listening for:`, [
+			`${exifCollection.name}.items.create`,
+			`${exifCollection.name}.items.update`
+		]);
 	});
 });
