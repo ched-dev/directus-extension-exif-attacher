@@ -37,6 +37,7 @@ async function createDataModel() {
     await exifCreate();
   }
   else {
+    console.log(``);
     console.log('Exiting with no changes made.')
   }
 }
