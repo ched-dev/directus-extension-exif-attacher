@@ -2,7 +2,7 @@ import { defineHook } from "@directus/extensions-sdk";
 import { FilterHandler } from "@directus/shared/types";
 import { File, FileMetadata, ExifCollection } from "./types";
 // @ts-ignore
-import defaultExifFields from "./exifFields";
+import defaultExifFields from "./exif-field-selectors";
 // @ts-ignore
 import { env, DEBUG } from "./config";
 // @ts-ignore
@@ -13,11 +13,11 @@ import exifDataModels from "./generated-exif-data-models";
 const EXIF_COLLECTIONS: ExifCollection[] = exifDataModels.map((dataModel: any) => ({
 	...dataModel,
 	fields: dataModel.fields.map((fieldName: string) => defaultExifFields.find((exifField: any) => exifField.prop === fieldName))
-}))
+}));
 
 const generateExifAttacher = (services: any, exifCollection: ExifCollection) => {
 	return async function(item, meta, context) {
-		const collectionSchema = context.schema?.collections[exifCollection.name]
+		const collectionSchema = context.schema?.collections[exifCollection.name];
 		const imageFieldName = exifCollection.imageFieldName || "image";
 		const imageId = item.hasOwnProperty(imageFieldName) ? item[imageFieldName] : undefined;
 
@@ -80,9 +80,7 @@ export default defineHook(({ filter }, { services }) => {
 
 		filter(`${exifCollection.name}.items.create`, attachExifData);
 		filter(`${exifCollection.name}.items.update`, attachExifData);
-		console.log(`exif-attacher listening for:`, [
-			`${exifCollection.name}.items.create`,
-			`${exifCollection.name}.items.update`
-		]);
 	});
+
+	console.log(`exif-data-models hooks loaded:`, EXIF_COLLECTIONS.map(exifCollection => exifCollection.name));
 });

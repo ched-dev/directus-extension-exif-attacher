@@ -71,7 +71,7 @@ npm run install-hook
 
 - Configure the settings in `src/config.ts`
 - Build the extension with `npm run build`
-- Copy the content of `dist/index.js` to your Directus project at `extensions/hooks/exif-attacher.js`
+- Copy the content of `dist/index.js` to your Directus project at `extensions/hooks/exif-data-models/index.js`
 - Restart your Directus application
 
 EXIF information should be updated automatically anytime you **create** or **update** the image on the Data Model. Note it only updates when you **save**, not when you select the image.
@@ -100,7 +100,7 @@ Finally, to load the extension into your Directus project, we'll set up a symlin
 
 ```sh
 cd ../directus-project/extensions/hooks/
-ln -s ../../../directus-extension-exif-attacher/dist/ exif-attacher
+ln -s ../../../directus-extension-exif-attacher/dist/ exif-data-models
 ```
 
 To confirm the extension was installed correctly, you should be able to run your Directus project successfully:
@@ -117,7 +117,7 @@ Output similar to:
 > directus-project@1.0.0 start
 > directus start
 
-17:43:34 ✨ Loaded extensions: exif-attacher
+17:43:34 ✨ Loaded extensions: exif-data-models
 17:43:34 ✨ Server started at http://localhost:8055
 ```
 
@@ -130,7 +130,7 @@ npm run watch
 ## This does something
 
 ```
-npx directus-extension build -f --type hook --input node_modules/exif-attacher/src/index.ts --output ./extensions/hooks/exif-attacher/index.js
+npx directus-extension build -f --type hook --input node_modules/exif-data-models/src/index.ts --output ./extensions/hooks/exif-data-models/index.js
 ```
 
 ## License

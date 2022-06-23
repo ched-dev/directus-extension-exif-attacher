@@ -1,9 +1,7 @@
-require("dotenv").config();
-
 // this file runs from /tasks/ or /bin/
-const { build } = require("../directus-schema-builder");
-const cli = require("inquirer");
-const { env, saveConfigJSON } = require("../src/config");
+const { build } = require('../directus-schema-builder');
+const cli = require('inquirer');
+const { env, saveConfigJSON } = require('../src/config');
 
 
 /**
@@ -19,7 +17,7 @@ const DEBUGGING = {
 
 module.exports = {
   createDataModel
-}
+};
 
 async function createDataModel() {
   if (env.EXIF_DATA_MODEL_NAMES.length) {
@@ -121,7 +119,7 @@ async function exifCreate() {
     console.error(`>`, e.message, `\n`);
 
     if (['ENOTFOUND', 'ECONNREFUSED'].includes(e.code)) {
-      console.info(`Is your Directus instance running at \`${env.DIRECTUS_URL}\`?`)
+      console.info(`Is your Directus instance running at \`${env.DIRECTUS_URL}\`?`);
     }
   }
 }
@@ -199,13 +197,14 @@ function runSchema(settings) {
       await saveConfigJSON({
         ...env.JSON_CONFIG,
         [env.JSON_CONFIG_DATA_MODELS_PROP]: env.EXIF_DATA_MODELS.concat(settings)
-      })
+      });
     }
     else {
-      console.log('ERROR: Could not read config file.')
+      console.log('ERROR: Could not read config file.');
     }
 
-    // TO DO: install hook
+    // install hook
+    require('../bin/install-hook-from-package');
   });
 };
 
