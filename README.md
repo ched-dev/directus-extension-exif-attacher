@@ -28,7 +28,8 @@ lensModel: string;
 gps: Point;
 ```
 
-All fields should "Allow NULL value" in case data is missing. If a field does not exist on the schema, we will not try to add it. Make sure your field names match.
+**NOTE:**  
+EXIF information will be updated automatically anytime you **create** or **update** the image on the Data Model. Note it only updates when you **save**, not when you select the image.
 
 ## Setup in your Directus installation
 
@@ -44,94 +45,65 @@ _Note: Only tested on Directus 9.4.3_
 
 ### One time setup
 
-Copy the `.env.sample` to your environment variables
+> Coming Soon: `init` command to run these steps for you
 
-```sh
-cp .env.sample .env
+**Step 1**  
+Add the following in your `package.json devDependencies` and run `npm install` again:
+
+```js
+"exif-data-models": "ched-dev/directus-extension-exif-attacher"
 ```
 
-Update the `.env` values with the login information for a user with permissions to create a Data Model. These environment variables do not need to be added to your production server. They are only required in the local development environment. DO NOT CHECK THEM IN TO SOURCE CONTROL.
+**Step 2**  
+Create a file in the root of your Directus install `exif-data-models-config.json` with an empty object `{}`.
+
+```sh
+cp node_modules/exif-data-models/exif-data-models-config.json exif-data-models-config.json
+```
+
+**Step 3**  
+Add the following environment variables to your `.env` values with the login information for a user with permissions to create a Data Model. This information is used to automatically create the Data Models for you.
+
+```sh
+DIRECTUS_URL=http://localhost:8055/
+DIRECTUS_ADMIN_EMAIL=cheddevdev@gmail.com
+DIRECTUS_ADMIN_PASSWORD=password
+```
+
+**WARNING:**  
+These environment variables do not need to be added to your production server. They are only required in the local development environment. DO NOT CHECK THEM IN TO SOURCE CONTROL.
 
 ### Create a Data Model with EXIF fields
+
+> Before running this command, your Directus instance needs to be up and running. This step connects to the API to create data models.
 
 We have created a simple command line tool to create the data model for you in your Directus installation. After setting up the environment variables, you can this command to create a new Data Model:
 
 ```
-npm run create-data-model
+npx exif-data-models create
 ```
 
 You will be prompted for all the required information.
 
+The command will regenerate the hook in your extensions folder. You should track the config and hook files in your source as they are required to run with your Directus instance.
 
-### Install (or reinstall) exif-data-attacher hook in Directus
-
-```
-npm run install-hook
-```
-
-- Configure the settings in `src/config.ts`
-- Build the extension with `npm run build`
-- Copy the content of `dist/index.js` to your Directus project at `extensions/hooks/exif-data-models/index.js`
-- Restart your Directus application
-
-EXIF information should be updated automatically anytime you **create** or **update** the image on the Data Model. Note it only updates when you **save**, not when you select the image.
-
-## Setup for local development
-
-First, clone the repo to your local machine as a sibling folder (parent of your Directus folder):
+Any time you create a new Data Model through this command, you will need to restart your Directus instance.
 
 ```sh
-git clone https://github.com/ched-dev/directus-extension-exif-attacher
+npm start
 ```
 
-Install the dependencies:
-
-```sh
-npm install
-```
-
-Build the extension to generate the latest output:
-
-```sh
-npm run build
-```
-
-Finally, to load the extension into your Directus project, we'll set up a symlink. Run the following commands: (adjust your folder names as needed)
-
-```sh
-cd ../directus-project/extensions/hooks/
-ln -s ../../../directus-extension-exif-attacher/dist/ exif-data-models
-```
-
-To confirm the extension was installed correctly, you should be able to run your Directus project successfully:
-
-```sh
-# from hooks/ directory
-cd ../../
-npm run start
-```
-
-Output similar to:
+Output should be similar to:
 
 ```
 > directus-project@1.0.0 start
 > directus start
 
-17:43:34 ✨ Loaded extensions: exif-data-models
-17:43:34 ✨ Server started at http://localhost:8055
+exif-data-models hooks loaded: [ 'media_library' ]
+19:26:44 ✨ Loaded extensions: exif-data-models
+19:26:44 ✨ Server started at http://localhost:8055
 ```
 
-Please note, any time you re-build your extension, you will need to restart your local Directus project to load the latest extension changes. You can actively develop and rebuild the extension with the watch command:
-
-```sh
-npm run watch
-```
-
-## This does something
-
-```
-npx directus-extension build -f --type hook --input node_modules/exif-data-models/src/index.ts --output ./extensions/hooks/exif-data-models/index.js
-```
 
 ## License
 

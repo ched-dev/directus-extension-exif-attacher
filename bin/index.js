@@ -1,7 +1,8 @@
 #! /usr/bin/env node
 const command = process.argv.slice(2)[0];
 const commandRunners = {
-  create: () => require('./create-data-model')
+  create: () => require('./create-data-model'),
+  build: () => require('./build-hook-from-package')
 }
 const commandNames = Object.keys(commandRunners);
 const availableCommandsText = `Available commands are ${commandNames.map(name => `\`${name}\``).join(' or ')}.`;

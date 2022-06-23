@@ -2,7 +2,7 @@
 const { exec } = require('child_process');
 const { loadConfigAndRun, generateExifDataModelsFile } = require('../src/config');
 
-const buildCommand = `cd node_modules/exif-data-models && npm run install-hook-from-package`;
+const buildCommand = `cd node_modules/exif-data-models && npm run build-hook-from-package`;
 
 loadConfigAndRun(async () => {
   await generateExifDataModelsFile();

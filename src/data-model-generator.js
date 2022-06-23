@@ -104,8 +104,10 @@ async function exifCreate() {
   try {
     await runSchema(settings);
 
+    
     console.log(`Successfully created \`${settings.name}\` Data Model!`);
     DEBUGGING.logging && console.log(settings);
+    console.log(`\n`)
   } catch (e) {
     console.error(`---------- ERROR -----------`);
     
@@ -153,7 +155,7 @@ function runSchema(settings) {
       }
 
       if (field.buildSchema && typeof field.buildSchema === "function") {
-        console.log("Adding EXIF field:", field.name);
+        DEBUGGING.logging && console.log("Adding EXIF field:", field.name);
         field.buildSchema(media, field, settings);
       }
     });
@@ -204,7 +206,7 @@ function runSchema(settings) {
     }
 
     // install hook
-    require('../bin/install-hook-from-package');
+    require('../bin/build-hook-from-package');
   });
 };
 

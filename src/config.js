@@ -127,7 +127,7 @@ function generateExifDataModelsFile() {
         return;
       }
   
-      console.log('Created build file:', env.JSON_BUILD_CONFIG_PATH);
+      console.log('Generated exif-data-models file:', env.JSON_BUILD_CONFIG_PATH, `\n`);
       env.DEBUG && console.log(config);
       resolve();
     });
