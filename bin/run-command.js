@@ -17,5 +17,5 @@ if (!commandNames.includes(command)) {
   process.exit(0);
 }
 
-console.log('> Running command:', command);
+console.log('> Running command:', command, `\n`);
 commandRunners[command]();

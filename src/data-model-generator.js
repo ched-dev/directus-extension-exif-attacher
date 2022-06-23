@@ -107,7 +107,7 @@ async function exifCreate() {
     
     console.log(`Successfully created \`${settings.name}\` Data Model!`);
     DEBUGGING.logging && console.log(settings);
-    console.log(`\n`)
+    console.log(``)
   } catch (e) {
     console.error(`---------- ERROR -----------`);
     
@@ -133,19 +133,20 @@ async function exifAttach() {
 
 function runSchema(settings) {
   const model = build((builder) => {
+    console.log(``);
     console.log("Creating Data Model:", settings.name);
     const media = builder.collection(settings.name).accountability("all");
     media.icon("image_search");
     // standard fields
-    console.log("Adding standard field: id (uuid)");
+    DEBUGGING.logging && console.log("Adding standard field: id (uuid)");
     media.primary_key("id", "uuid").interface("input").hidden().readonly();
-    console.log("Adding standard field: date_created");
+    DEBUGGING.logging && console.log("Adding standard field: date_created");
     media.date_created("date_created").hidden().readonly().width("half");
-    console.log("Adding standard field: user_created");
+    DEBUGGING.logging && console.log("Adding standard field: user_created");
     media.user_created("user_created").hidden().readonly().width("half");
-    console.log("Adding standard field: date_updated");
+    DEBUGGING.logging && console.log("Adding standard field: date_updated");
     media.date_updated("date_updated").hidden().readonly().width("half");
-    console.log("Adding standard field: user_updated");
+    DEBUGGING.logging && console.log("Adding standard field: user_updated");
     media.user_updated("user_updated").hidden().readonly().width("half");
     // custom fields
     getSchemaBuilderExifFields().map(field => {
