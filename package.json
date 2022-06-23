@@ -14,13 +14,12 @@
 		"host": "^9.5.2"
 	},
 	"bin": {
-		"exif-data-models": "bin/index.js"
+		"exif-data-models": "bin/cli.js"
 	},
 	"scripts": {
 		"help": "directus-extension build --help",
 		"build": "directus-extension build",
 		"watch": "directus-extension build --watch",
-		"create-data-model": "node bin/create-data-model.js",
 		"build-hook-from-package": "directus-extension build -f -t hook -i src/index.ts -o ../../extensions/hooks/exif-data-models/index.js"
 	},
 	"devDependencies": {
